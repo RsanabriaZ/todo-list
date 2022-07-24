@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faCalendarDays } from '@fortawesome/free-regular-svg-icons'
+
 export interface TaskData {
   id?: number;
   title: string;
@@ -5,7 +8,8 @@ export interface TaskData {
   completed: boolean;
 
   // TODO: Add assignedTo property to Task component
-  assignedTo: string;
+  assignedTo?: string;
+  dueDate?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -27,9 +31,14 @@ export const Task = (props: TaskProps) => {
           task.completed && 'bg-blue-400'
         }`}
       ></div>
-      <div>
+      <div className="text-left space-y-1">
         <p className="font-semibold text-gray-700">{task.title}</p>
         <p className="text-gray-400 text-sm">{task.description}</p>
+        <div className='flex space-x-3'>
+          { task.dueDate && <p className="text-gray-400 text-sm"><FontAwesomeIcon icon={faCalendarDays} /> {task.dueDate}</p>}
+          { task.dueDate && task.assignedTo && <p className="text-gray-400 text-sm font-black">·</p>} 
+          { task.assignedTo && <p className="text-gray-400 text-sm"><FontAwesomeIcon icon={faUser} /> {task.assignedTo}</p>}
+        </div>
       </div>
     </button>
   );
