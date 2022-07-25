@@ -5,17 +5,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select'
 
 const defaultData: TaskData = {
+  id: -1,
   title: '',
   description: '',
   assignedTo: '',
   completed: false,
-};
+}
 
 interface FormProps {
   onSubmit: (task: TaskData) => void;
 }
 
-const persons = [
+const personsSupplier = [
   {
     firstName: 'Ana',
     lastName: 'Perez'
@@ -56,7 +57,7 @@ export const Form = (props: FormProps) => {
           <Select
             defaultValue={{label: 'Assign To' , value: 'empty'}}
             className="w-60 text-center rounded-md"
-            options={ persons.map(sup => ({ label: (sup.firstName + " " + sup.lastName), value: (sup.firstName + " " + sup.lastName)})) }
+            options={ personsSupplier.map(sup => ({ label: (sup.firstName + " " + sup.lastName), value: (sup.firstName + " " + sup.lastName)})) }
             onChange={ (e)=> setTask({...task, assignedTo: e?.value })}
           />
           <DatePicker 

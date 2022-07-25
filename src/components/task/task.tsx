@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faCalendarDays } from '@fortawesome/free-regular-svg-icons'
 
 export interface TaskData {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   completed: boolean;
