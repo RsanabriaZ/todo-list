@@ -2,11 +2,17 @@ import { useState } from 'react';
 import { Form, Task, TaskData, Filter, Selection } from './components';
 
 function App() {
-  const [tasks, setTasks] = useState<Array<TaskData>>([])
+  const [tasks, setTasks] = useState<Array<TaskData>>(JSON.parse(localStorage.getItem("tasks") || '[]'))
   const [filterSelection, setFilterSelection] = useState<Selection>({ label: 'Todas', value: 'all'});
 
   const onCreateTask = (task: TaskData) => {
-    setTasks([...tasks, { ...task, id: tasks.length + 1 }]);
+    //setTasks([...tasks, { ...task, id: tasks.length + 1 }]);
+    try{
+      window.localStorage.setItem("tasks", JSON.stringify([...tasks, { ...task, id: tasks.length + 1 }]))
+      setTasks(JSON.parse(localStorage.getItem("tasks") || '[]'));
+    }catch (error){
+      console.error(error);
+    }
   }
 
   const onChange = (filterSelection: Selection) => {
