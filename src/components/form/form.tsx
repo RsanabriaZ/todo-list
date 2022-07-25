@@ -7,8 +7,8 @@ import Select from 'react-select'
 const defaultData: TaskData = {
   id: -1,
   title: '',
-  description: '',
   assignedTo: '',
+  description: '',
   completed: false,
 }
 
@@ -18,16 +18,20 @@ interface FormProps {
 
 const personsSupplier = [
   {
-    firstName: 'Ana',
-    lastName: 'Perez'
+    label: 'Assign To',
+    value: ''
   },
   {
-    firstName: 'Mario',
-    lastName: 'Lopez'
+    label: 'Maria Cacerez',
+    value: 'Maria Cacerez'
   },
   {
-    firstName: 'Andres',
-    lastName: 'Peñate'
+    label: 'Jose Ramirez',
+    value: 'Jose Ramirez'
+  },
+  {
+    label: 'Alberto Morales',
+    value: 'Alberto Morales'
   }
 ]
 
@@ -36,7 +40,9 @@ export const Form = (props: FormProps) => {
 
   const [task, setTask] = useState<TaskData>(defaultData);
 
-  const setDefaultData = () => setTask(defaultData);
+  const setDefaultData = () => {
+    setTask(defaultData);  
+  }
 
   return (
     <div className="bg-white shadow-lg w-9/12 rounded-lg p-3">
@@ -55,10 +61,11 @@ export const Form = (props: FormProps) => {
       <div className="flex justify-between">
         <div className='space-x-5 flex justify-start'>
           <Select
-            defaultValue={{label: 'Assign To' , value: 'empty'}}
+            defaultValue={personsSupplier[0]}
+            value={personsSupplier.find(element => element.value == task.assignedTo)}
             className="w-60 text-center rounded-md"
-            options={ personsSupplier.map(sup => ({ label: (sup.firstName + " " + sup.lastName), value: (sup.firstName + " " + sup.lastName)})) }
-            onChange={ (e)=> setTask({...task, assignedTo: e?.value })}
+            options={ personsSupplier }
+            onChange={ (e)=> setTask({...task, assignedTo: e!.value})}
           />
           <DatePicker 
             placeholderText="Due Date"

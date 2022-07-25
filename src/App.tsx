@@ -14,7 +14,6 @@ function App() {
   }
 
   const filterTasks = (task:any) => filterSelection.value ===  'completed' ? task.completed : filterSelection.value === 'ongoing' ? !task.completed : true;
-  console.log(filterSelection)
 
   return (
     <div className="flex flex-col justify-center items-center bg-pink-50 h-screen">
@@ -35,7 +34,7 @@ function App() {
           }
         </div>
       </div>
-      <Form onSubmit={onCreateTask} />
+      <Form onSubmit={onCreateTask}/>
     </div>
   );
 }

@@ -8,7 +8,7 @@ export interface TaskData {
   completed: boolean;
 
   // TODO: Add assignedTo property to Task component
-  assignedTo?: string;
+  assignedTo: string;
   dueDate?: string;
   createdAt?: string;
   updatedAt?: string;
