@@ -24,7 +24,10 @@ function App() {
   return (
     <div className="flex flex-col justify-center items-center bg-pink-50 h-screen">
       <div className="bg-white shadow-md w-3/5 rounded-tr-lg rounded-tl-lg">
-        <Filter onChangeSelection={onChange} filterSelection={filterSelection}/>
+        <Filter 
+          onChangeSelection={onChange} 
+          filterSelection={filterSelection}
+        />
         <div className="p-3">
           { 
             tasks.filter(filterTasks).map((task, index) => (
@@ -40,7 +43,9 @@ function App() {
           }
         </div>
       </div>
-      <Form onSubmit={onCreateTask}/>
+      <Form 
+        onSubmit={onCreateTask}
+      />
     </div>
   );
 }

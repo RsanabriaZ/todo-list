@@ -36,6 +36,7 @@ export const Filter = (props: FilterProps) =>{
             <div className='flex'>
                 <label className='my-auto'>Mostrar:</label>
                 <Select
+                    aria-label="optionSelect"
                     styles={style}
                     defaultValue={filterSelection}
                     className="w-40 text-center rounded-md"

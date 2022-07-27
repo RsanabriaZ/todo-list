@@ -47,12 +47,14 @@ export const Form = (props: FormProps) => {
   return (
     <div className="bg-white shadow-lg w-9/12 rounded-lg p-3">
       <input
+        data-testid="titleTask"
         value={task.title}
         placeholder="Titulo de tarea..."
         className="w-full"
         onChange={(e) => setTask({ ...task, title: e.target.value })}
       />
       <textarea
+        data-testid="descriptionTask"
         value={task.description}
         placeholder="Descripcion de la tarea..."
         className="w-full"
@@ -61,6 +63,7 @@ export const Form = (props: FormProps) => {
       <div className="flex justify-between">
         <div className='space-x-5 flex justify-start'>
           <Select
+            aria-label="assignedTask"
             defaultValue={personsSupplier[0]}
             value={personsSupplier.find(element => element.value == task.assignedTo)}
             className="w-60 text-center rounded-md"
