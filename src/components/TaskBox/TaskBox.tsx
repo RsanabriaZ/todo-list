@@ -26,7 +26,7 @@ export const TaskBox = () => {
   }, [filterStatus, tasks]);
 
   return (
-    <Box p={"12"} rounded="md">
+    <Box p={"12"} rounded="md" boxShadow='inner'>
       <TaskFilter />
       <Box maxHeight={"45vh"} overflow={"scroll"} overflowX={"hidden"} px="5">
         {filterTasks.map((task, index) => (

@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
 import { Task } from "../../types/Interfaces";
-import { CalendarIcon, AtSignIcon } from "@chakra-ui/icons";
+import { CalendarIcon, AtSignIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useContext } from "react";
 import { TasksContext } from "../../context/TasksContext";
 
@@ -14,6 +14,9 @@ export const TaskRow = (props: Props) => {
   const { id, name, assignedTo, description, executionDate, isCompleted } =
     tasksDetail;
 
+  const handleDelete = () => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
   const handleButton = () => {
     setTasks(
       tasks.map((task, index) => {
@@ -47,10 +50,21 @@ export const TaskRow = (props: Props) => {
               <CalendarIcon />
               <Text color={"blue.600"}>{String(executionDate)}</Text>
             </Flex>
-            <Box display={"flex"} alignItems={"center"} gap="2">
+            <Box display={"flex"} alignItems={"center"} gap="2" pt="1">
               <AtSignIcon />
               <Text color={"gray"}>{assignedTo}</Text>
             </Box>
+          </Box>
+          <Box display={"flex"} alignItems={"center"} pt="2" gap={"1"}>
+            <Button
+              color={"gray"}
+              variant="link"
+              colorScheme={"gray"}
+              onClick={handleDelete}
+              leftIcon={<DeleteIcon />}
+            >
+              Delete Task
+            </Button>
           </Box>
         </Box>
       </Box>

@@ -15,7 +15,7 @@ export const TaskForm = () => {
   const { tasks, setTasks } = useContext(TasksContext);
 
   const [task, setTask] = useState<Task>({
-    assignedTo: "",
+    assignedTo: "Myself",
     executionDate: "",
     description: "",
     id: String(new Date() + "" + Math.random()),
@@ -31,13 +31,14 @@ export const TaskForm = () => {
   };
 
   const handleSend = () => {
+    if (task.name.trim() === "") return null;
     setTasks([...tasks, task]);
     handleDelete();
   };
 
   const handleDelete = () => {
     setTask({
-      assignedTo: "",
+      assignedTo: "Myself",
       executionDate: "",
       description: "",
       id: String(new Date() + "" + Math.random()),
@@ -48,7 +49,7 @@ export const TaskForm = () => {
 
   return (
     <Box boxShadow="2xl" p={"12"} rounded="md" my="-12" minW={"90vh"}>
-      <FormControl>
+      <FormControl isRequired>
         <Input
           type="text"
           placeholder="Task Name"
@@ -58,6 +59,8 @@ export const TaskForm = () => {
           value={task.name}
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e)}
         />
+      </FormControl>
+      <FormControl>
         <Textarea
           resize={"block"}
           placeholder="Task Description..."
@@ -66,14 +69,17 @@ export const TaskForm = () => {
           value={task.description}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleChange(e)}
         />
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          gap={2}
-          justifyContent="space-between"
-          pt="2"
-        >
-          <Flex alignItems={"center"} gap={2}>
+      </FormControl>
+
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        gap={2}
+        justifyContent="space-between"
+        pt="2"
+      >
+        <Flex alignItems={"center"} gap={2}>
+          <FormControl>
             <Input
               type="date"
               my="2"
@@ -82,6 +88,8 @@ export const TaskForm = () => {
               value={task.executionDate}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
+          </FormControl>
+          <FormControl>
             <Select
               placeholder="Assign to"
               name="assignedTo"
@@ -95,18 +103,18 @@ export const TaskForm = () => {
               <option value="Student 3">Student 3</option>
               <option value="Student 4">Student 4</option>
             </Select>
-          </Flex>
+          </FormControl>
+        </Flex>
 
-          <Flex alignItems={"center"} gap={2}>
-            <Button colorScheme={"gray"} type="reset" onClick={handleDelete}>
-              Cancel
-            </Button>
-            <Button colorScheme={"purple"} onClick={handleSend}>
-              Add Task
-            </Button>
-          </Flex>
-        </Box>
-      </FormControl>
+        <Flex alignItems={"center"} gap={2}>
+          <Button colorScheme={"gray"} type="reset" onClick={handleDelete}>
+            Cancel
+          </Button>
+          <Button colorScheme={"purple"} onClick={handleSend}>
+            Add Task
+          </Button>
+        </Flex>
+      </Box>
     </Box>
   );
 };
