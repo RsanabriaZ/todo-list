@@ -1,4 +1,4 @@
-import { ChakraProvider, Text } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { TasksProvider } from "./context/TasksContext";
 import MainPage from "./pages/MainPage";
 

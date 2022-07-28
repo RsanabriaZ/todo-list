@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { TaskBox, TaskForm } from "../components/Index";
 
 const MainPage = () => {
