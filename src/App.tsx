@@ -1,44 +1,52 @@
-import { useEffect, useState } from 'react';
-import { Form, Task, TaskData } from './components';
-import TaskService from './services/task.service';
+import { useState } from 'react';
+import { Form, Task, TaskData, Filter, Selection } from './components';
 
 function App() {
-  const [tasks, setTasks] = useState<Array<TaskData>>([]);
+  const [tasks, setTasks] = useState<Array<TaskData>>(JSON.parse(localStorage.getItem("tasks") || '[]'))
+  const [filterSelection, setFilterSelection] = useState<Selection>({ label: 'Todas', value: 'all'});
 
-  useEffect(() => {
-    TaskService.get().then((tasks) => {
-      setTasks(tasks);
-    });
-  }, []);
-
-  const onCreateTask = async (task: TaskData) => {
-    try {
-      const response = await TaskService.create(task);
-      setTasks([...tasks, response]);
-    } catch (error) {
-      console.log('Algo salió mal');
+  const onCreateTask = (task: TaskData) => {
+    
+    try{
+      window.localStorage.setItem("tasks", JSON.stringify([...tasks, { ...task, id: tasks.length + 1 }]))
+      setTasks(JSON.parse(localStorage.getItem("tasks") || '[]'));
+    }catch (error){
+      console.error(error);
     }
-  };
+  }
+
+  const onChange = (filterSelection: Selection) => {
+    setFilterSelection({...filterSelection})
+  }
+
+  const filterTasks = (task:any) => filterSelection.value ===  'completed' ? task.completed : filterSelection.value === 'ongoing' ? !task.completed : true;
 
   return (
     <div className="flex flex-col justify-center items-center bg-pink-50 h-screen">
       <div className="bg-white shadow-md w-3/5 rounded-tr-lg rounded-tl-lg">
-        <p className="border-b border-b-gray-200 p-3">Tareas</p>
+      <p className="border-b border-b-gray-200 p-3">Tareas</p>
         <div className="p-3">
-          {tasks.map((task, index) => (
-            <Task
-              key={`task-${task.id}`}
-              task={task}
-              toggleComplete={async () => {
-                tasks[index].completed = !tasks[index].completed;
-                TaskService.update(tasks[index]);
-                setTasks([...tasks]);
-              }}
-            />
-          ))}
+          { 
+            tasks.filter(filterTasks).map((task, index) => (
+              <Task
+                key={`task-${task.id}`}
+                task={task}
+                toggleComplete={() => {
+                  tasks[task.id - 1].completed = !tasks[task.id - 1].completed;
+                  setTasks([...tasks]);
+                }}
+              />
+            ))
+          }
         </div>
+        <Filter 
+          onChangeSelection={onChange} 
+          filterSelection={filterSelection}
+        />
       </div>
-      <Form onSubmit={onCreateTask} />
+      <Form 
+        onSubmit={onCreateTask}
+      />
     </div>
   );
 }
