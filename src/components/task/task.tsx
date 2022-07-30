@@ -1,11 +1,11 @@
 export interface TaskData {
-  id?: number;
+  id?: string;
   title: string;
   description: string;
   completed: boolean;
 
   // TODO: Add assignedTo property to Task component
-  assignedTo: string;
+  assignedTo?: string;
   createdAt?: string;
   updatedAt?: string;
 }

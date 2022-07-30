@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Task, TaskData } from './components';
+import TaskService from './services/task.service';
 
 function App() {
   const [tasks, setTasks] = useState<Array<TaskData>>([]);
 
-  const onCreateTask = (task: TaskData) => {
-    setTasks([...tasks, { ...task, id: tasks.length + 1 }]);
+  useEffect(() => {
+    TaskService.get().then((tasks) => {
+      setTasks(tasks);
+    });
+  }, []);
+
+  const onCreateTask = async (task: TaskData) => {
+    try {
+      const response = await TaskService.create(task);
+      setTasks([...tasks, response]);
+    } catch (error) {
+      console.log('Algo salió mal');
+    }
   };
 
   return (
@@ -17,8 +29,9 @@ function App() {
             <Task
               key={`task-${task.id}`}
               task={task}
-              toggleComplete={() => {
+              toggleComplete={async () => {
                 tasks[index].completed = !tasks[index].completed;
+                TaskService.update(tasks[index]);
                 setTasks([...tasks]);
               }}
             />
