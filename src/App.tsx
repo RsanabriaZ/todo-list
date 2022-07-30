@@ -7,7 +7,7 @@ function App() {
   const [filter, setFilter] = useState<'all' | 'pending' | 'completed'>('all');
 
   const getTasks = (filter?: string) => {
-    TaskService.get(filter).then((tasks) => {
+    TaskService.get(filter as any).then((tasks) => {
       setTasks(tasks);
     });
   };
@@ -15,7 +15,6 @@ function App() {
   useEffect(getTasks, []);
 
   useEffect(() => {
-    console.log('getting task');
     getTasks(filter);
   }, [filter]);
 
