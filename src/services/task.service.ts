@@ -2,10 +2,25 @@ import { TaskData } from '../components';
 
 const localKey = 'tasks';
 
+const all = (tasks: Array<TaskData>) => tasks;
+
+const pending = (tasks: Array<TaskData>) =>
+  tasks.filter((task) => task.completed);
+const completed = (tasks: Array<TaskData>) =>
+  tasks.filter((task) => !task.completed);
+
+const actions = {
+  all,
+  pending,
+  completed,
+};
+
 export default class TaskService {
-  static async get(): Promise<Array<TaskData>> {
+  static async get(
+    filter: 'all' | 'pending' | 'completed' = 'all'
+  ): Promise<Array<TaskData>> {
     const tasks = JSON.parse(localStorage.getItem(localKey) ?? '[]');
-    return tasks;
+    return actions[filter](tasks);
   }
 
   static async create(task: TaskData): Promise<TaskData> {

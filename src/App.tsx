@@ -4,12 +4,19 @@ import TaskService from './services/task.service';
 
 function App() {
   const [tasks, setTasks] = useState<Array<TaskData>>([]);
+  const [filter, setFilter] = useState<'all' | 'pending' | 'completed'>('all');
 
-  useEffect(() => {
-    TaskService.get().then((tasks) => {
+  const getTasks = (filter?: string) => {
+    TaskService.get(filter as any).then((tasks) => {
       setTasks(tasks);
     });
-  }, []);
+  };
+
+  useEffect(getTasks, []);
+
+  useEffect(() => {
+    getTasks(filter);
+  }, [filter]);
 
   const onCreateTask = async (task: TaskData) => {
     try {
@@ -23,7 +30,19 @@ function App() {
   return (
     <div className="flex flex-col justify-center items-center bg-pink-50 h-screen">
       <div className="bg-white shadow-md w-3/5 rounded-tr-lg rounded-tl-lg">
-        <p className="border-b border-b-gray-200 p-3">Tareas</p>
+        <div className="flex flex-row justify-between pr-3 border-b border-b-gray-200">
+          <p className=" p-3">Tareas</p>
+          <select
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.currentTarget.value as any);
+            }}
+          >
+            <option value="all" label="All" />
+            <option value="pending" label="Completed" />
+            <option value="completed" label="Pending" />
+          </select>
+        </div>
         <div className="p-3">
           {tasks.map((task, index) => (
             <Task
